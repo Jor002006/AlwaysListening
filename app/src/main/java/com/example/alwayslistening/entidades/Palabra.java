@@ -5,14 +5,14 @@ public class Palabra
     private int idPalabra;
     private String textoPalabra;
     private int  activada;
-    private int[] patronVibracion;
+    private int patronVibracion;
 
     //gg
     public int getIdPalabra() {
         return idPalabra;
     }
 
-    public int[] getPatronVibracion() {
+    public int getPatronVibracion() {
         return patronVibracion;
     }
 
@@ -32,7 +32,7 @@ public class Palabra
         this.idPalabra = idPalabra;
     }
 
-    public void setPatronVibracion(int[] patronVibracion) {
+    public void setPatronVibracion(int patronVibracion) {
         this.patronVibracion = patronVibracion;
     }
 

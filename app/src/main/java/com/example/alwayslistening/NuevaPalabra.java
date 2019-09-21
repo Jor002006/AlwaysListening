@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.contactos.utilidades.utilidades;
+import com.example.alwayslistening.utilidades;
 
 public class NuevaPalabra extends AppCompatActivity {
 
@@ -45,6 +45,17 @@ public class NuevaPalabra extends AppCompatActivity {
         Long registros = db.insert(utilidades.TABLA_PALABRA, utilidades.CAMPO_ID, values);
         String _texto = Texto.getText().toString();
         Toast.makeText(getApplicationContext(), "Palabra: '"+_texto+"' guardada. "+registros.toString()+" palabras en total.",Toast.LENGTH_SHORT).show();
+        db.close();
+    }
+
+    public void GuardarPalabra2()
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+
+        String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'hola',1, 1000)";
+        db.execSQL(insert);
+        db.close();
     }
 
 }

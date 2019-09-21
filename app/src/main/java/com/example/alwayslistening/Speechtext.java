@@ -1,10 +1,12 @@
 package com.example.alwayslistening;
-
+import android.database.sqlite.SQLiteDatabase;
 import android.content.ActivityNotFoundException;
+import android.os.Vibrator;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import android.database.Cursor;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
 
@@ -33,9 +35,49 @@ public class Speechtext extends AppCompatActivity {
         }
     }
 
-    boolean PalabraSiEsta(String p)
+    boolean PalabraSiEsta(String palabra)
     {
-        return true;
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        String[] parametros={palabra};
+        boolean respuesta=false;
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT * FROM Palabra WHERE textoPalabra=? ",parametros);
+
+            cursor.moveToFirst();
+            if(cursor.getCount()>0)
+            {respuesta=true;}
+
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+        return respuesta;
+    }
+
+    int TomarVibracion(String palabra)
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        String[] parametros={palabra};
+        int respuesta=0;
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT * FROM Palabra WHERE textoPalabra=? ",parametros);
+
+            cursor.moveToFirst();
+            respuesta = cursor.getInt(cursor.getColumnIndex("patronVibracion"));
+
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+        return respuesta;
     }
 
     public void onActivityResult(int request_code, int result_code, Intent mod) {//metodo que guarda la informacion que es captada por el dispositivo.
@@ -46,7 +88,9 @@ public class Speechtext extends AppCompatActivity {
                 ArrayList<String> palabrarecibida = mod.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 if(PalabraSiEsta(palabrarecibida.toString()))
                 {
-                    //vibrator.vibrate(LisVi[i]);
+                   Vibrator vibrator;
+                    vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(TomarVibracion(palabrarecibida.toString()));
                 }
             }
         }
