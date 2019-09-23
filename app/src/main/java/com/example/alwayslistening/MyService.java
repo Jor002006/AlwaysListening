@@ -14,6 +14,12 @@ public class MyService extends Service {
 
         Toast.makeText(this,"Service Started", Toast.LENGTH_SHORT).show();
 
+
+        ///////////// aquiiiiii poner el codigo que se va a ejecutrar entre el Toast.makeText(this,"Service Started", Toast.LENGTH_SHORT).show();
+        //////////// y el return super.onStartCommand(intent, flags, startId);
+
+        // creo que tambien se va a tener que pasar como parametros una lista con las palabras guardadas, tomar en cuenta
+
         return super.onStartCommand(intent, flags, startId);
     }
 
