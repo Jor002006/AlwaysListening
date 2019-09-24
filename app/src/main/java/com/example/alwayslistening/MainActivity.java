@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         NuevaPalabra = (Button) findViewById(R.id.nueva_palabra);
         MisPalabras = (Button) findViewById(R.id.mis_palabras);
 
+
         NuevaPalabra.setOnClickListener( new View.OnClickListener()
         {
             @Override
@@ -47,6 +50,31 @@ public class MainActivity extends AppCompatActivity {
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
+   /* public ArrayList<String> MiLista()
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        ArrayList<String> lista = new ArrayList<String>();
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
+
+            cursor.moveToFirst();
+            if(cursor.getCount()>0)
+                for(int i=0;i<cursor.getCount();i++)
+                {
+                    lista.add( cursor.getString(cursor.getColumnIndex("textoPalabra")) );
+                }
+
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+        return lista;
+    }*/
+
     public void AbrirAgregarPantalla ()
     {
         Intent intent = new Intent(this, AgregarPalabra.class);
@@ -55,8 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void start(View view) {
-        Intent intent = new Intent(MainActivity.this, MyService.class);
-        startService(intent);
+        /*Intent intent = new Intent(MainActivity.this, MyService.class);
+        startService(intent);*/
+        Speechtext s = new Speechtext();
+        s.mostrarAudioInput();
     }
 
     public void stop(View view) {
@@ -114,10 +144,34 @@ public class MainActivity extends AppCompatActivity {
             tosty.show();
 
             //Esto hace la comparación de la palabra detectada.
-            if(palabra.equalsIgnoreCase("cuidado")){
+
+            if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
                 vibrator.vibrate(500);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    boolean PalabraSiEsta(String palabra)
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        String[] parametros={palabra};
+        boolean respuesta=false;
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT * FROM Palabra WHERE textoPalabra=? ",parametros);
+
+            cursor.moveToFirst();
+            if(cursor.getCount()>0)
+            {respuesta=true;}
+
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+        return respuesta;
     }
 }

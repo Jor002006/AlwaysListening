@@ -20,6 +20,9 @@ public class MyService extends Service {
 
         // creo que tambien se va a tener que pasar como parametros una lista con las palabras guardadas, tomar en cuenta
 
+        Speechtext s = new Speechtext();
+        s.mostrarAudioInput();
+
         return super.onStartCommand(intent, flags, startId);
     }
 

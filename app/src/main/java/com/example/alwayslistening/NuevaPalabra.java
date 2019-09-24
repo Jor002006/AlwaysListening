@@ -1,9 +1,10 @@
 package com.example.alwayslistening;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -57,5 +58,19 @@ public class NuevaPalabra extends AppCompatActivity {
         db.execSQL(insert);
         db.close();
     }
+
+    /*public ArrayList getAllWords() {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db = conn.getReadableDatabase();
+        //SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> array_list = new ArrayList<String>();
+        Cursor res = db.rawQuery( "select * from "+CONTACTS_TABLE_NAME, null );
+        res.moveToFirst();
+        while(res.isAfterLast() = = false) {
+            array_list.add(res.getString(res.getColumnIndex("name")));
+            res.moveToNext();
+        }
+        return array_list;
+    }*/
 
 }

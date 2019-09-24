@@ -58,6 +58,31 @@ public class Speechtext extends AppCompatActivity {
         return respuesta;
     }
 
+    public ArrayList<String> MiLista()
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        ArrayList<String> lista = new ArrayList<String>();
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
+
+            cursor.moveToFirst();
+            if(cursor.getCount()>0)
+                for(int i=0;i<cursor.getCount();i++)
+                {
+                    lista.add( cursor.getString(cursor.getColumnIndex("textoPalabra")) );
+                }
+
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+        return lista;
+    }
+
     int TomarVibracion(String palabra)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
@@ -86,7 +111,7 @@ public class Speechtext extends AppCompatActivity {
         if (request_code==100) {
             if (result_code == RESULT_OK /*&& !=null*/){  // Result_ok = true
                 ArrayList<String> palabrarecibida = mod.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                if(PalabraSiEsta(palabrarecibida.toString()))
+                if(PalabraSiEsta(palabrarecibida.get(0)))
                 {
                    Vibrator vibrator;
                     vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);

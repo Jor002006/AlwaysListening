@@ -54,21 +54,21 @@
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="596dp"
+        android:layout_marginTop="528dp"
         android:onClick="start"
         android:text="On"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="-29dp" />
 
     <Button
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="644dp"
+        android:layout_marginTop="568dp"
         android:onClick="stop"
         android:text="Off"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-16dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/btnVoice"
