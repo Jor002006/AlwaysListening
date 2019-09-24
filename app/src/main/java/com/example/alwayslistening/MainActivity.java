@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button MisPalabras;
     Button btnVoice;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
+    Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         inicializarReconocimiento();
+
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     public void AbrirAgregarPantalla ()
@@ -108,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
             palabra = items[0].toString();
             Toast tosty = Toast.makeText(getApplicationContext(), palabra, Toast.LENGTH_LONG);
             tosty.show();
+
+            //Esto hace la comparación de la palabra detectada.
+            if(palabra.equalsIgnoreCase("cuidado")){
+                vibrator.vibrate(500);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
