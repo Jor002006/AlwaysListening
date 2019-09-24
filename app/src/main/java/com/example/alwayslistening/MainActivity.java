@@ -1,6 +1,8 @@
 package com.example.alwayslistening;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -10,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +24,10 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+
+
 
     Button NuevaPalabra;
     Button MisPalabras;
@@ -45,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 AbrirAgregarPantalla();
             }
         });
-        inicializarReconocimiento();
+        //inicializarReconocimiento();
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
@@ -83,10 +90,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void start(View view) {
-        /*Intent intent = new Intent(MainActivity.this, MyService.class);
-        startService(intent);*/
-        Speechtext s = new Speechtext();
-        s.mostrarAudioInput();
+        Intent intent = new Intent(MainActivity.this, MyService.class);
+        //startThread(View view);
+        startService(intent);
+
+       /* Speechtext s = new Speechtext();
+        s.mostrarAudioInput();*/
     }
 
     public void stop(View view) {
@@ -102,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Metodo pa´ reconocer la voz por si las moscas
-    private void inicializarReconocimiento(){
+   /* private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
 
@@ -119,14 +128,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }*/
+
+    public void startThread() {
+        VoiceRecognitionThread thread = new VoiceRecognitionThread();
+        thread.run();
+
     }
 
-    private void startVoiceRecognitionActivity(){
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"");
-        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+    public void stopThread(View view) {
+
     }
+
+    class VoiceRecognitionThread extends Thread {
+
+        @Override
+        public void run() {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"");
+            startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -174,4 +198,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return respuesta;
     }
+
+
+
+
+    /// $$$$$$$$$$$$$$$$$$$$44 PRUEBAS $$$$$$$$$$$$$$$$$$$$$$$$
+    public void prueba (boolean a) {
+        System.out.println(a);
+
+    }
+
 }
