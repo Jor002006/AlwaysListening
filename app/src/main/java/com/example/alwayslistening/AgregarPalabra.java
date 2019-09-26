@@ -57,7 +57,7 @@ public class AgregarPalabra extends AppCompatActivity {
 
     void Confirmacion(String palabra)
     {
-        Toast t=Toast.makeText(this,"", Toast.LENGTH_SHORT);
+        Toast t=Toast.makeText(this,"palabra", Toast.LENGTH_SHORT);
         t.show();
     }
 
