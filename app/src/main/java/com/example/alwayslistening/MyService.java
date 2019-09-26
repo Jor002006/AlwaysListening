@@ -2,26 +2,45 @@ package com.example.alwayslistening;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.nfc.Tag;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import static java.lang.Thread.sleep;
 
 public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        // crearemos un hilo para poder  trabajar el proceso que es tan pesado
+        // ya que si se corre solo así entonces se cierra la app
+        // NO ES  problema de que no se puedan llamar cosas al main, porque ya lo probe
+        // y si funciona
+        //prueba:
+        /*
+        boolean a  = true;
+
+        MainActivity main = new MainActivity();
+        main.prueba(a);
+        */
+
+        MainActivity main = new MainActivity();
+        main.startThread();
+
+
+
+
+
+
         Toast.makeText(this,"Service Started", Toast.LENGTH_SHORT).show();
-
-
-        ///////////// aquiiiiii poner el codigo que se va a ejecutrar entre el Toast.makeText(this,"Service Started", Toast.LENGTH_SHORT).show();
-        //////////// y el return super.onStartCommand(intent, flags, startId);
-
-        // creo que tambien se va a tener que pasar como parametros una lista con las palabras guardadas, tomar en cuenta
-
-        Speechtext s = new Speechtext();
-        s.mostrarAudioInput();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -46,4 +65,9 @@ public class MyService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+    // a continuacion los threads
+
+
+
 }
