@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button NuevaPalabra;
-    Button MisPalabrasButton;
+    Button MisPalabras;
     Button btnVoice;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
     Vibrator vibrator;
@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         NuevaPalabra = (Button) findViewById(R.id.nueva_palabra);
-        MisPalabrasButton = (Button) findViewById(R.id.mis_palabras);
+        MisPalabras = (Button) findViewById(R.id.mis_palabras);
+
+        inicializarReconocimiento();
 
 
         NuevaPalabra.setOnClickListener( new View.OnClickListener()
@@ -52,17 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 AbrirAgregarPantalla();
             }
         });
-
-        MisPalabrasButton.setOnClickListener( new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                AbrirMisPalabras();
-            }
-        });
-
-        inicializarReconocimiento();
+        //inicializarReconocimiento();
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
@@ -98,18 +90,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void AbrirMisPalabras ()
-    {
-        Intent intent = new Intent(this, MisPalabras.class);
-        startActivity(intent);
-    }
-
 
     public void start(View view) {
-        //Intent intent = new Intent(MainActivity.this, MyService.class);  //// Solo estan comentadas temporalmente para revision
+        Intent intent = new Intent(MainActivity.this, MyService.class);
         //startThread(View view);
-        //startService(intent); //// Solo estan comentadas temporalmente para revision
-        Toast.makeText(getApplicationContext(),"Servicio activado",Toast.LENGTH_LONG).show();
+        startService(intent);
 
        /* Speechtext s = new Speechtext();
         s.mostrarAudioInput();*/
@@ -128,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Metodo pa´ reconocer la voz por si las moscas
-     private void inicializarReconocimiento(){
+    private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
 
@@ -204,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        String[] parametros={palabra};
+        String[] parametros={palabra.toLowerCase()};
         boolean respuesta=false;
 
         try {
