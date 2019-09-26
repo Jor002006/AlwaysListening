@@ -23,10 +23,6 @@ public class MisPalabras extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_palabras);
 
-        /*String[] foods ={"manzana", "pera", "banano"};
-        ListAdapter LA = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, foods);
-        LV = (ListView)(findViewById((R.id.ListView1)));
-        LV.setAdapter(LA);*/
     }
 
     public String PalabrasQueHay()
@@ -55,29 +51,33 @@ public class MisPalabras extends AppCompatActivity {
         return respuesta;
     }
 
-    public void Dialogo()
+    public void MostrarPalabras(View view)
     {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
         dialogo1.setTitle("Mis Palabras");
         dialogo1.setMessage(PalabrasQueHay());
-        /*dialogo1.setCancelable(false);
-        dialogo1.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogo1, int id) {
-                Confirmacion(palabra+" agregada a Mis Palabras");
-            }
-        });
-        dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogo1, int id) {
-                Confirmacion("Cancelado");
-            }
-        });*/
+
         dialogo1.show();
     }
 
-    public void VerPalabras(View view)
+    /*public void VerPalabras(View view)
     {
         Dialogo();
-    }
+    }*/
+
+    /*public ArrayList getAllWords() {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db = conn.getReadableDatabase();
+        //SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> array_list = new ArrayList<String>();
+        Cursor res = db.rawQuery( "select * from "+CONTACTS_TABLE_NAME, null );
+        res.moveToFirst();
+        while(res.isAfterLast() = = false) {
+            array_list.add(res.getString(res.getColumnIndex("name")));
+            res.moveToNext();
+        }
+        return array_list;
+    }*/
 
 
 

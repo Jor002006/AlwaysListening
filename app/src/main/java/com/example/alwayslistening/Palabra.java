@@ -7,7 +7,14 @@ public class Palabra
     private int  activada;
     private int patronVibracion;
 
-    //gg
+    public Palabra(int id, String texto,int activated, int patron)
+    {
+        idPalabra=id;
+        textoPalabra=texto;
+        activada=activated;
+        patronVibracion=patron;
+    }
+
     public int getIdPalabra() {
         return idPalabra;
     }
@@ -20,7 +27,7 @@ public class Palabra
         return textoPalabra;
     }
 
-    public int isActivada() {
+    public int getActivada() {
         return activada;
     }
 

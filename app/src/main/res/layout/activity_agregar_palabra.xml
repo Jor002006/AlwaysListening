@@ -48,7 +48,7 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="GuardarPalabra2"
+        android:onClick="GuardarPalabra"
         android:text="Agregar a mi lista"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.Random;
 
 public class AgregarPalabra extends AppCompatActivity {
 
@@ -20,18 +21,25 @@ public class AgregarPalabra extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_palabra);
     }
 
-    public void GuardarPalabra2(View view)
+    public void GuardarPalabra(View view)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
         SQLiteDatabase db = conn.getWritableDatabase();
-        EditText palabra = (EditText)(findViewById(R.id.textBox1));
-        String texto_Palabra = palabra.getText().toString();
-        String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+texto_Palabra+"',1, 1000)";
-        db.execSQL(insert);
-        if(PalabraSiEsta(texto_Palabra))
-        {
+        EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
-            Dialogo(texto_Palabra.toUpperCase());
+        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, 1000);
+        //Alternativa de pruebas de INSERT
+        //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
+
+        String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values" +
+                "("+palabra.getIdPalabra()+
+                ",'"+palabra.getTextoPalabra()+
+                "',"+palabra.getActivada()+
+                ", "+palabra.getPatronVibracion()+")";
+        db.execSQL(insert);
+        if(PalabraSiEsta(palabra.getTextoPalabra()))
+        {
+            Dialogo(palabra.getTextoPalabra().toUpperCase());
         }
         db.close();
     }
@@ -40,7 +48,7 @@ public class AgregarPalabra extends AppCompatActivity {
     {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
         dialogo1.setTitle("mis palabras");
-        dialogo1.setMessage("¿ Desea agregar "+palabra+" a su lista ?");
+        dialogo1.setMessage("¿Desea agregar ["+palabra+"] a su lista ");
         dialogo1.setCancelable(false);
         dialogo1.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogo1, int id) {
@@ -57,7 +65,7 @@ public class AgregarPalabra extends AppCompatActivity {
 
     void Confirmacion(String palabra)
     {
-        Toast t=Toast.makeText(this,"palabra", Toast.LENGTH_SHORT);
+        Toast t=Toast.makeText(this,palabra, Toast.LENGTH_SHORT);
         t.show();
     }
 

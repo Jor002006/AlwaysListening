@@ -106,9 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void start(View view) {
-        Intent intent = new Intent(MainActivity.this, MyService.class);
+        //Intent intent = new Intent(MainActivity.this, MyService.class);  //// Solo estan comentadas temporalmente para revision
         //startThread(View view);
-        startService(intent);
+        //startService(intent); //// Solo estan comentadas temporalmente para revision
+        Toast.makeText(getApplicationContext(),"Servicio activado",Toast.LENGTH_LONG).show();
 
        /* Speechtext s = new Speechtext();
         s.mostrarAudioInput();*/
