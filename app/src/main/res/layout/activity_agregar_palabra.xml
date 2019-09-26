@@ -14,6 +14,7 @@
         android:layout_marginEnd="54dp"
         android:layout_marginRight="54dp"
         android:text="NUEVA PALABRA"
+        android:textColor="#03A9F4"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.864"
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
         android:text="Palabra"
+        android:textColor="#050000"
         app:layout_constraintEnd_toStartOf="@+id/textBox1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -47,9 +49,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="GuardarPalabra2"
-        android:text="Agregar"
+        android:text="Agregar a mi lista"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textBox1" />
+        app:layout_constraintTop_toBottomOf="@+id/textBox1"
+        app:layout_constraintVertical_bias="0.588" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textBox1"
+        app:srcCompat="@mipmap/phone3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

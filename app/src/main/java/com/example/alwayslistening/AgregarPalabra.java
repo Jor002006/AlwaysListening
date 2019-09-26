@@ -20,24 +20,6 @@ public class AgregarPalabra extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_palabra);
     }
 
-    public void GuardarPalabra(View view)
-    {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
-
-        SQLiteDatabase db = conn.getWritableDatabase();
-
-       // ContentValues values = new ContentValues();
-       // values.put(com.example.alwayslistening.utilidades.CAMPO_ID, 1/*Valor del textBox asignado*/);
-       // values.put(com.example.alwayslistening.utilidades.CAMPO_TEXTO, Texto.getText().toString()/*Valor del textBox asignado*/);
-       // values.put(com.example.alwayslistening.utilidades.CAMPO_ACTIVADA, 1/*Valor del textBox asignado*/);
-       // values.put(com.example.alwayslistening.utilidades.CAMPO_PATRON_VIBRACION, Vibracion.getText().toString()/*Valor del textBox asignado*/);
-
-       // Long registros = db.insert(com.example.alwayslistening.utilidades.TABLA_PALABRA, com.example.alwayslistening.utilidades.CAMPO_ID, values);
-       // String _texto = Texto.getText().toString();
-       // Toast.makeText(getApplicationContext(), "Palabra: '"+_texto+"' guardada. "+registros.toString()+" palabras en total.",Toast.LENGTH_SHORT).show();
-       // db.close();
-    }
-
     public void GuardarPalabra2(View view)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
@@ -49,38 +31,34 @@ public class AgregarPalabra extends AppCompatActivity {
         if(PalabraSiEsta(texto_Palabra))
         {
 
-            Toast t=Toast.makeText(this,"Se agrego la palabra"+texto_Palabra, Toast.LENGTH_SHORT);
-            t.show();
+            Dialogo(texto_Palabra.toUpperCase());
         }
         db.close();
     }
 
-    public void Dialogo(View view)
+    public void Dialogo(final String palabra)
     {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
-        dialogo1.setTitle("Importante");
-        dialogo1.setMessage("¿ Acepta la ejecución de este programa en modo prueba ?");
+        dialogo1.setTitle("mis palabras");
+        dialogo1.setMessage("¿ Desea agregar "+palabra+" a su lista ?");
         dialogo1.setCancelable(false);
-        dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+        dialogo1.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogo1, int id) {
-                aceptar();
+                Confirmacion(palabra+" agregada a Mis Palabras");
             }
         });
         dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogo1, int id) {
-                cancelar();
+                Confirmacion("Cancelado");
             }
         });
         dialogo1.show();
     }
 
-    public void aceptar() {
-        Toast t=Toast.makeText(this,"Bienvenido a probar el programa.", Toast.LENGTH_SHORT);
+    void Confirmacion(String palabra)
+    {
+        Toast t=Toast.makeText(this,"", Toast.LENGTH_SHORT);
         t.show();
-    }
-
-    public void cancelar() {
-        finish();
     }
 
     boolean PalabraSiEsta(String palabra)

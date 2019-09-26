@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Metodo pa´ reconocer la voz por si las moscas
-   /* private void inicializarReconocimiento(){
+  /*  private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
 
