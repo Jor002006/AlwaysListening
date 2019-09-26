@@ -91,11 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view) {
         Intent intent = new Intent(MainActivity.this, MyService.class);
-        //startThread(View view);
         startService(intent);
 
-       /* Speechtext s = new Speechtext();
-        s.mostrarAudioInput();*/
     }
 
     public void stop(View view) {
@@ -130,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
+
+   // hilos startThread y stopThread
+
     public void startThread() {
         VoiceRecognitionThread thread = new VoiceRecognitionThread();
         thread.run();
@@ -144,10 +144,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"");
-            startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+            //startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
         }
     }
 
