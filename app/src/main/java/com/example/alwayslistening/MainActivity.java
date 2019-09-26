@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public void startThread() {
         VoiceRecognitionThread thread = new VoiceRecognitionThread();
         thread.run();
-
+        //pruebas con threadss
     }
 
     public void stopThread(View view) {
