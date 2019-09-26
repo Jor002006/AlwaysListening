@@ -84,28 +84,5 @@ public class AgregarPalabra extends AppCompatActivity {
         return respuesta;
     }
 
-    public String PalabrasQueHay()
-    {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
-        SQLiteDatabase db=conn.getReadableDatabase();
-        String respuesta="";
 
-        try {
-            //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
-
-            cursor.moveToFirst();
-            if(cursor.getCount()>0)
-            for(int i=0;i<cursor.getCount();i++)
-            {
-                respuesta+=cursor.getString(cursor.getColumnIndex("textoPalabra"));
-            }
-
-
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
-
-        }
-        return respuesta;
-    }
 }

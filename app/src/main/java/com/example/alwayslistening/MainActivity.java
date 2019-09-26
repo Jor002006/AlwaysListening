@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button NuevaPalabra;
-    Button MisPalabras;
+    Button MisPalabrasButton;
     Button btnVoice;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
     Vibrator vibrator;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         NuevaPalabra = (Button) findViewById(R.id.nueva_palabra);
-        MisPalabras = (Button) findViewById(R.id.mis_palabras);
+        MisPalabrasButton = (Button) findViewById(R.id.mis_palabras);
 
 
         NuevaPalabra.setOnClickListener( new View.OnClickListener()
@@ -52,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
                 AbrirAgregarPantalla();
             }
         });
+
+        MisPalabrasButton.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                AbrirMisPalabras();
+            }
+        });
+
         inicializarReconocimiento();
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -85,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
     public void AbrirAgregarPantalla ()
     {
         Intent intent = new Intent(this, AgregarPalabra.class);
+        startActivity(intent);
+    }
+
+    public void AbrirMisPalabras ()
+    {
+        Intent intent = new Intent(this, MisPalabras.class);
         startActivity(intent);
     }
 
