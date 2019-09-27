@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Metodo pa´ reconocer la voz por si las moscas
+    //Metodo pa´ reconocer la voz
     private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
@@ -122,16 +122,20 @@ public class MainActivity extends AppCompatActivity {
 
         List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
+        //Aqui se buscan los paquetes necesarios
+
         if(activities.size() != 0){
             btnVoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //Se llama al metodo para iniciar el reconocimiento de voz
                     startVoiceRecognitionActivity();
                 }
             });
         }
     }
 
+    //Se utiliza el servicio de google para reconocer la voz
     private void startVoiceRecognitionActivity(){
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -161,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Se reemplaza uno de los metodos del reconocerdor de voz para que haga lo que queremos
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK){
@@ -171,16 +176,18 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast yo = Toast.makeText(getApplicationContext(), items[0], Toast.LENGTH_LONG);
             yo.show();
+            //Aqui lo que ocurre es que el servicio de google crea una lista de palabra reconocidas en orden de mayor confianza a menor
+
             String palabra;
             palabra = items[0].toString();
+            //Aqui se escoge el primer match de los resultados del reconocimiento porque es el más confiable
+
             Toast tosty = Toast.makeText(getApplicationContext(), palabra, Toast.LENGTH_LONG);
             tosty.show();
-
-            //Esto hace la comparación de la palabra detectada.
-
             if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
                 vibrator.vibrate(500);
             }
+            //Esto hace la comparación de la palabra y hace la vibracion.
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
