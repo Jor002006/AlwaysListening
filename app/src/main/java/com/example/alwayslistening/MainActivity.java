@@ -1,3 +1,19 @@
+/*
+* PROYECTO:  AlwaysListening
+* PROGRAMA: Clase MainActivity
+* DESCRIPCIÓN: Clase primaria que inicializa el programa y redirige a otras vistas
+* PROGRAMADORES:
+*       -Sebastián González - 18588
+*       -Pablo Marroquín - 19077
+*       -Jorge Lara - 19449
+*       -María Paula Valdés - 19146
+*ULTIMA MODIFICACIÓN: 26/09/2019
+* AJUSTES PENDIENTES:
+*       -Implementar las funcionalidades del SERVICE para ser activado
+*       -Reacomodar métodos para darle una funcionalidad de CONTROLADOR (MVC)
+*       -Revisar estética de interfaz
+* */
+
 package com.example.alwayslistening;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     Button NuevaPalabra;
-    Button MisPalabras;
+    Button MisPalabrasButton;
     Button btnVoice;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
     Vibrator vibrator;
@@ -41,9 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         NuevaPalabra = (Button) findViewById(R.id.nueva_palabra);
-        MisPalabras = (Button) findViewById(R.id.mis_palabras);
-
-        inicializarReconocimiento();
+        MisPalabrasButton = (Button) findViewById(R.id.mis_palabras);
 
 
         NuevaPalabra.setOnClickListener( new View.OnClickListener()
@@ -54,52 +68,48 @@ public class MainActivity extends AppCompatActivity {
                 AbrirAgregarPantalla();
             }
         });
-        //inicializarReconocimiento();
+
+        MisPalabrasButton.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                AbrirMisPalabras();
+            }
+        });
+
+        inicializarReconocimiento();
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
-   /* public ArrayList<String> MiLista()
-    {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
-        SQLiteDatabase db=conn.getReadableDatabase();
-        ArrayList<String> lista = new ArrayList<String>();
-
-        try {
-            //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
-
-            cursor.moveToFirst();
-            if(cursor.getCount()>0)
-                for(int i=0;i<cursor.getCount();i++)
-                {
-                    lista.add( cursor.getString(cursor.getColumnIndex("textoPalabra")) );
-                }
-
-
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
-
-        }
-        return lista;
-    }*/
-
+    //abren la pantalla correspondiente a la clase que se desea trabajar.
     public void AbrirAgregarPantalla ()
     {
         Intent intent = new Intent(this, AgregarPalabra.class);
         startActivity(intent);
     }
 
+    //abren la pantalla correspondiente a la clase que se desea trabajar.
+    public void AbrirMisPalabras ()
+    {
+        Intent intent = new Intent(this, MisPalabras.class);
+        startActivity(intent);
+    }
 
+
+    //inician y detienen la ejecución del servicio para tareas en segundo plano.
     public void start(View view) {
-        Intent intent = new Intent(MainActivity.this, MyService.class);
+        //Intent intent = new Intent(MainActivity.this, MyService.class);  //// Solo estan comentadas temporalmente para revision
         //startThread(View view);
-        startService(intent);
+        //startService(intent); //// Solo estan comentadas temporalmente para revision
+        Toast.makeText(getApplicationContext(),"Servicio activado",Toast.LENGTH_LONG).show();
 
        /* Speechtext s = new Speechtext();
         s.mostrarAudioInput();*/
     }
 
+    //inician y detienen la ejecución del servicio para tareas en segundo plano.
     public void stop(View view) {
         Intent intent = new Intent(MainActivity.this, MyService.class);
         stopService(intent);
@@ -112,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Metodo pa´ reconocer la voz
-    private void inicializarReconocimiento(){
+    //método que habilita las funcionalidades de Google para reconocimiento de voz y traducir a texto.
+     private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
 
@@ -122,20 +132,17 @@ public class MainActivity extends AppCompatActivity {
 
         List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
-        //Aqui se buscan los paquetes necesarios
-
         if(activities.size() != 0){
             btnVoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Se llama al metodo para iniciar el reconocimiento de voz
                     startVoiceRecognitionActivity();
                 }
             });
         }
     }
 
-    //Se utiliza el servicio de google para reconocer la voz
+    //método que habilita las funcionalidades de Google para reconocimiento de voz y traducir a texto.
     private void startVoiceRecognitionActivity(){
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -143,16 +150,19 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
+    //habilitan funciones de reconocimiento de voz.
     public void startThread() {
         VoiceRecognitionThread thread = new VoiceRecognitionThread();
         thread.run();
-        //pruebaaaaaaa
+
     }
 
+    //habilitan funciones de reconocimiento de voz.
     public void stopThread(View view) {
 
     }
 
+    //habilitan funciones de reconocimiento de voz.
     class VoiceRecognitionThread extends Thread {
 
         @Override
@@ -165,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //Se reemplaza uno de los metodos del reconocerdor de voz para que haga lo que queremos
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK){
@@ -176,27 +185,26 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast yo = Toast.makeText(getApplicationContext(), items[0], Toast.LENGTH_LONG);
             yo.show();
-            //Aqui lo que ocurre es que el servicio de google crea una lista de palabra reconocidas en orden de mayor confianza a menor
-
             String palabra;
             palabra = items[0].toString();
-            //Aqui se escoge el primer match de los resultados del reconocimiento porque es el más confiable
-
             Toast tosty = Toast.makeText(getApplicationContext(), palabra, Toast.LENGTH_LONG);
             tosty.show();
+
+            //Esto hace la comparación de la palabra detectada.
+
             if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
                 vibrator.vibrate(500);
             }
-            //Esto hace la comparación de la palabra y hace la vibracion.
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    //función para verificar si el audio escuchado corresponde a una palabra de la base de datos. (temporalmente)
     boolean PalabraSiEsta(String palabra)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
-        String[] parametros={palabra.toLowerCase()};
+        String[] parametros={palabra};
         boolean respuesta=false;
 
         try {
