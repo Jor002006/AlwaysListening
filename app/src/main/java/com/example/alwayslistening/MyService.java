@@ -1,3 +1,18 @@
+/*
+ * PROYECTO:  AlwaysListening
+ * PROGRAMA: Clase MyService
+ * DESCRIPCIÓN: Service implementado para recibir el sonido permanentemente incluso cuando esta cerrada la aplicación.
+ * PROGRAMADORES:
+ *       -Sebastián González - 18588
+ *       -Pablo Marroquín - 19077
+ *       -Jorge Lara - 19449
+ *       -María Paula Valdés - 19146
+ *ULTIMA MODIFICACIÓN: 26/09/2019
+ * AJUSTES PENDIENTES:
+ *       -Implementar nuevos métodos activados desde esta clase para reconocimiento de voz
+ *       -Validaciones de servicio activado
+ * */
+
 package com.example.alwayslistening;
 
 import android.app.Service;

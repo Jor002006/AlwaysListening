@@ -1,3 +1,19 @@
+/*
+* PROYECTO:  AlwaysListening
+* PROGRAMA: Clase MainActivity
+* DESCRIPCIÓN: Clase primaria que inicializa el programa y redirige a otras vistas
+* PROGRAMADORES:
+*       -Sebastián González - 18588
+*       -Pablo Marroquín - 19077
+*       -Jorge Lara - 19449
+*       -María Paula Valdés - 19146
+*ULTIMA MODIFICACIÓN: 26/09/2019
+* AJUSTES PENDIENTES:
+*       -Implementar las funcionalidades del SERVICE para ser activado
+*       -Reacomodar métodos para darle una funcionalidad de CONTROLADOR (MVC)
+*       -Revisar estética de interfaz
+* */
+
 package com.example.alwayslistening;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,37 +83,14 @@ public class MainActivity extends AppCompatActivity {
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
-   /* public ArrayList<String> MiLista()
-    {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
-        SQLiteDatabase db=conn.getReadableDatabase();
-        ArrayList<String> lista = new ArrayList<String>();
-
-        try {
-            //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
-
-            cursor.moveToFirst();
-            if(cursor.getCount()>0)
-                for(int i=0;i<cursor.getCount();i++)
-                {
-                    lista.add( cursor.getString(cursor.getColumnIndex("textoPalabra")) );
-                }
-
-
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
-
-        }
-        return lista;
-    }*/
-
+    //abren la pantalla correspondiente a la clase que se desea trabajar.
     public void AbrirAgregarPantalla ()
     {
         Intent intent = new Intent(this, AgregarPalabra.class);
         startActivity(intent);
     }
 
+    //abren la pantalla correspondiente a la clase que se desea trabajar.
     public void AbrirMisPalabras ()
     {
         Intent intent = new Intent(this, MisPalabras.class);
@@ -105,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //inician y detienen la ejecución del servicio para tareas en segundo plano.
     public void start(View view) {
         //Intent intent = new Intent(MainActivity.this, MyService.class);  //// Solo estan comentadas temporalmente para revision
         //startThread(View view);
@@ -115,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         s.mostrarAudioInput();*/
     }
 
+    //inician y detienen la ejecución del servicio para tareas en segundo plano.
     public void stop(View view) {
         Intent intent = new Intent(MainActivity.this, MyService.class);
         stopService(intent);
@@ -127,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Metodo pa´ reconocer la voz por si las moscas
+    //método que habilita las funcionalidades de Google para reconocimiento de voz y traducir a texto.
      private void inicializarReconocimiento(){
 
         btnVoice = (Button) findViewById(R.id.btnVoice);
@@ -147,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //método que habilita las funcionalidades de Google para reconocimiento de voz y traducir a texto.
     private void startVoiceRecognitionActivity(){
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -154,16 +150,19 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
+    //habilitan funciones de reconocimiento de voz.
     public void startThread() {
         VoiceRecognitionThread thread = new VoiceRecognitionThread();
         thread.run();
-        //pruebaaaaaaa
+
     }
 
+    //habilitan funciones de reconocimiento de voz.
     public void stopThread(View view) {
 
     }
 
+    //habilitan funciones de reconocimiento de voz.
     class VoiceRecognitionThread extends Thread {
 
         @Override
@@ -200,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    //función para verificar si el audio escuchado corresponde a una palabra de la base de datos. (temporalmente)
     boolean PalabraSiEsta(String palabra)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);

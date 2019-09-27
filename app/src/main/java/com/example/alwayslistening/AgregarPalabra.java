@@ -1,3 +1,17 @@
+/*
+ * PROYECTO:  AlwaysListening
+ * PROGRAMA: Clase AgregarPalabras
+ * DESCRIPCIÓN: Clase que provee las funcionalidades para insertar palabras en base de datos local.
+ * PROGRAMADORES:
+ *       -Sebastián González - 18588
+ *       -Pablo Marroquín - 19077
+ *       -Jorge Lara - 19449
+ *       -María Paula Valdés - 19146
+ *ULTIMA MODIFICACIÓN: 26/09/2019
+ * AJUSTES PENDIENTES:
+ *       -Revisar estética de interfaz
+ * */
+
 package com.example.alwayslistening;
 import android.app.AlertDialog;
 
@@ -21,6 +35,7 @@ public class AgregarPalabra extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_palabra);
     }
 
+    //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
     public void GuardarPalabra(View view)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
@@ -44,6 +59,7 @@ public class AgregarPalabra extends AppCompatActivity {
         db.close();
     }
 
+    // función que pregunta al usuario si está seguro de guardar su palabra.
     public void Dialogo(final String palabra)
     {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
@@ -63,12 +79,14 @@ public class AgregarPalabra extends AppCompatActivity {
         dialogo1.show();
     }
 
+    // función que le muestra al usuario si su registro de palabra fue exitoso.
     void Confirmacion(String palabra)
     {
         Toast t=Toast.makeText(this,palabra, Toast.LENGTH_SHORT);
         t.show();
     }
 
+    // función quere revisa si la palabra fue insertada correctamente en la base de datos.
     boolean PalabraSiEsta(String palabra)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);

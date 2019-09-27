@@ -1,3 +1,19 @@
+/*
+ * PROYECTO:  AlwaysListening
+ * PROGRAMA: Clase Speechtext
+ * DESCRIPCIÓN: Utiliza clase propia de Android para manipular entradas de audio y convertirlas a otros tipos de dato manejables.
+ *              Cabe destacar que es una clase temporal ya que el uso de Speech Recognizer Intent será posteriormente utilizado en
+ *              la clase MyService en su debido momento.
+ * PROGRAMADORES:
+ *       -Sebastián González - 18588
+ *       -Pablo Marroquín - 19077
+ *       -Jorge Lara - 19449
+ *       -María Paula Valdés - 19146
+ *ULTIMA MODIFICACIÓN: 26/09/2019
+ * AJUSTES PENDIENTES:
+ *       -Reimplementar métodos de reconocimiento de voz utilizables en clase MyService
+ * */
+
 package com.example.alwayslistening;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.ActivityNotFoundException;

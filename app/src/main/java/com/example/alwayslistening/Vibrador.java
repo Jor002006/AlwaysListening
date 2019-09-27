@@ -1,3 +1,17 @@
+/*
+ * PROYECTO:  AlwaysListening
+ * PROGRAMA: Clase Vibrador
+ * DESCRIPCIÓN: Clase propia de Android para manipular las funcionalidades referentes a vibración del dispositivo.
+ * PROGRAMADORES:
+ *       -Sebastián González - 18588
+ *       -Pablo Marroquín - 19077
+ *       -Jorge Lara - 19449
+ *       -María Paula Valdés - 19146
+ *ULTIMA MODIFICACIÓN: 26/09/2019
+ * AJUSTES PENDIENTES:
+ *       -Implementar y habilitar métodos para vibraciones personalizadas
+ * */
+
 package com.example.alwayslistening;
 
 import androidx.appcompat.app.AppCompatActivity;
