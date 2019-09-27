@@ -185,16 +185,18 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast yo = Toast.makeText(getApplicationContext(), items[0], Toast.LENGTH_LONG);
             yo.show();
+            //Aqui lo que ocurre es que el servicio de google tiene una lista de palabras/frase detectadas ordenadas de mayor confianza a menor confianza
+
             String palabra;
             palabra = items[0].toString();
             Toast tosty = Toast.makeText(getApplicationContext(), palabra, Toast.LENGTH_LONG);
             tosty.show();
-
-            //Esto hace la comparación de la palabra detectada.
+            //Aqui se escoge el primer elemento de las palabras detectadas porque es el que tiene mayor confianza y se convierte en un String para realizar la comparacion
 
             if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
                 vibrator.vibrate(500);
             }
+            //Esto hace la comparación de la palabra detectada.
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
