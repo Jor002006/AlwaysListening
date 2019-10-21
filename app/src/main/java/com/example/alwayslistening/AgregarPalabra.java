@@ -25,17 +25,21 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.LongToIntFunction;
+//package com.example.apptimesince;
 
 public class AgregarPalabra extends AppCompatActivity {
 
@@ -43,21 +47,59 @@ public class AgregarPalabra extends AppCompatActivity {
     private Button prueba2;
     private long contador;
     private Vibrator vibrator;
+    long tiempoEntreApachado;
+    boolean i =false;
+    long bootTime;
+    ArrayList<Long> sucesionSonidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
+
+        final Button prueba = (Button) findViewById(R.id.prueba);
+        //final TextView timeText = (TextView) findViewById(R.id.timeText);
+        bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        prueba();
         prueba2 = (Button) (findViewById(R.id.button2));
+
         prueba2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Toast cont = Toast.makeText(getApplicationContext(), Long.toString(contador), Toast.LENGTH_SHORT);
+               cont.show();
+           }
+        });
+
+        prueba.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Toast cont = Toast.makeText(getApplicationContext(),Long.toString(contador), Toast.LENGTH_SHORT);
-                cont.show();
+            public void onClick(View v) {
+
+                final Long timeElapsed = SystemClock.elapsedRealtime();
+
+
+                if (i) {
+                    sucesionSonidos.add(contador);
+                    Long timeElapsed2= SystemClock.elapsedRealtime();
+                    Long timeElapsed3 = timeElapsed2- bootTime;
+                    bootTime = timeElapsed2;
+                    //timeText.setText(String.valueOf(timeElapsed3));
+                    sucesionSonidos.add(timeElapsed3);
+                    i = false;
+
+
+                }
+                else {
+
+                    prueba();
+                    i = true;
+
+                }
+
             }
         });
+
     }
 
 
@@ -140,26 +182,19 @@ public class AgregarPalabra extends AppCompatActivity {
     private void prueba(){
         prueba = (Button) findViewById(R.id.prueba);
 
-        PackageManager pm = getPackageManager();
-
-
-        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-
-        if(activities.size() != 0){
-            prueba.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    if (motionEvent.getAction() == motionEvent.ACTION_DOWN) {
-                        contador = System.currentTimeMillis();
-                    } else if (motionEvent.getAction() == motionEvent.ACTION_UP) {
-                        contador = System.currentTimeMillis() - contador;
-                    }
-
-                    return true;
+        prueba.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == motionEvent.ACTION_DOWN) {
+                    contador = System.currentTimeMillis();
+                } else if (motionEvent.getAction() == motionEvent.ACTION_UP) {
+                    contador = System.currentTimeMillis() - contador;
                 }
+                return true;
+            }
 
-            });
-        }
+        });
+
     }
 
 
