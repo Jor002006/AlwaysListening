@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -36,7 +37,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -194,7 +195,17 @@ public class MainActivity extends AppCompatActivity {
             //Aqui se escoge el primer elemento de las palabras detectadas porque es el que tiene mayor confianza y se convierte en un String para realizar la comparacion
 
             if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
-                vibrator.vibrate(500);
+                final long[] pattern = {0, 2000, 500, 500};
+                int tiempo = (int)((int)pattern[0]+(int)pattern[1]+(int)pattern[2]+(int)pattern[3])/(int)1000;
+                for(int i = 0; i < 5; i++){
+                    vibrator.vibrate(pattern,  0);
+                    try {
+                        TimeUnit.SECONDS.sleep(tiempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                vibrator.cancel();
             }
             //Esto hace la comparación de la palabra detectada.
         }

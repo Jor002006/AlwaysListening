@@ -19,20 +19,37 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.speech.RecognizerIntent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.List;
 import java.util.Random;
+import java.util.function.LongToIntFunction;
 
 public class AgregarPalabra extends AppCompatActivity {
+
+    private Button prueba;
+    private Button prueba2;
+    private long contador;
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        prueba();
     }
 
     //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
@@ -108,6 +125,31 @@ public class AgregarPalabra extends AppCompatActivity {
 
         }
         return respuesta;
+    }
+
+    private void prueba(){
+        prueba = (Button) findViewById(R.id.prueba);
+
+        PackageManager pm = getPackageManager();
+
+
+        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+
+        if(activities.size() != 0){
+            prueba.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == motionEvent.ACTION_DOWN) {
+                        contador = System.currentTimeMillis();
+                    } else if (motionEvent.getAction() == motionEvent.ACTION_UP) {
+                        contador = System.currentTimeMillis() - contador;
+                    }
+
+                    return true;
+                }
+
+            });
+        }
     }
 
 
