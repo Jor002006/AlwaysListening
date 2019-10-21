@@ -50,7 +50,17 @@ public class AgregarPalabra extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_palabra);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         prueba();
+        prueba2 = (Button) (findViewById(R.id.button2));
+        prueba2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast cont = Toast.makeText(getApplicationContext(),Long.toString(contador), Toast.LENGTH_SHORT);
+                cont.show();
+            }
+        });
     }
+
+
 
     //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
     public void GuardarPalabra(View view)

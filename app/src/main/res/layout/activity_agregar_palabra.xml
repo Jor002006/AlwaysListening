@@ -71,15 +71,30 @@
         android:id="@+id/prueba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginLeft="164dp"
-        android:layout_marginTop="32dp"
+        android:text="Grabar"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="573dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="154dp"
+        android:layout_marginLeft="154dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="98dp"
         android:layout_marginRight="98dp"
-        android:layout_marginBottom="118dp"
-        android:text="Boton de prueba"
+        android:layout_marginBottom="40dp"
+        android:text="Boton de prueba 2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/prueba" />
+
+    <LinearLayout
+        android:layout_width="262dp"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="331dp"></LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
