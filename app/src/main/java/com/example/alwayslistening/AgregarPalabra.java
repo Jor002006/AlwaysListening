@@ -24,7 +24,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -59,7 +58,7 @@ public class AgregarPalabra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
 
-        final ImageButton prueba = (ImageButton) findViewById(R.id.prueba);
+        //final Button prueba = (Button) findViewById(R.id.prueba);
         //final TextView timeText = (TextView) findViewById(R.id.timeText);
         bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
