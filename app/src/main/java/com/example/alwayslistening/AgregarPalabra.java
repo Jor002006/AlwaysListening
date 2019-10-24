@@ -58,11 +58,12 @@ public class AgregarPalabra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
 
-        //final Button prueba = (Button) findViewById(R.id.prueba);
+        final ImageButton prueba = (ImageButton) findViewById(R.id.prueba);
         //final TextView timeText = (TextView) findViewById(R.id.timeText);
         bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         prueba2 = (Button) (findViewById(R.id.button2));
+        sucesionSonidos = new ArrayList<Long>();
 
         prueba2.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -79,7 +80,6 @@ public class AgregarPalabra extends AppCompatActivity {
 
                 final Long timeElapsed = SystemClock.elapsedRealtime();
 
-
                 if (i) {
                     sucesionSonidos.add(contador);
                     Long timeElapsed2= SystemClock.elapsedRealtime();
@@ -88,14 +88,10 @@ public class AgregarPalabra extends AppCompatActivity {
                     //timeText.setText(String.valueOf(timeElapsed3));
                     sucesionSonidos.add(timeElapsed3);
                     i = false;
-
-
                 }
                 else {
-
                     prueba();
                     i = true;
-
                 }
 
             }
@@ -103,7 +99,23 @@ public class AgregarPalabra extends AppCompatActivity {
 
     }
 
+    private String ConvertirSucesionSonidosAString()
+    {
+        String resp="";
+        for(int i=0;i<sucesionSonidos.size();i++)
+        {
+            resp+=sucesionSonidos.get(i)+",";
+        }
 
+        return resp;
+    }
+
+    public void MostrarPatron(View view)
+    {
+        //String patronComoString = ConvertirSucesionSonidosAString();
+        int u=sucesionSonidos.size();
+        Toast.makeText(getApplicationContext(),Integer.toString(sucesionSonidos.size()),Toast.LENGTH_LONG).show();
+    }
 
     //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
     public void GuardarPalabra(View view)
@@ -112,7 +124,9 @@ public class AgregarPalabra extends AppCompatActivity {
         SQLiteDatabase db = conn.getWritableDatabase();
         EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
-        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, 1000);
+        String patronComoString = ConvertirSucesionSonidosAString();
+        Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
+        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, patronComoString);
         //Alternativa de pruebas de INSERT
         //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
 

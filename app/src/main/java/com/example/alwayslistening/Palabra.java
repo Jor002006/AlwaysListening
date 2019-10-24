@@ -20,10 +20,10 @@ public class Palabra
     private int idPalabra;
     private String textoPalabra;
     private int  activada;
-    private int patronVibracion;
+    private String patronVibracion;
 
     //constructor del objeto palabra donde se asignan sus propiedades iniciales en la instancia.
-    public Palabra(int id, String texto,int activated, int patron)
+    public Palabra(int id, String texto,int activated, String patron)
     {
         idPalabra=id;
         textoPalabra=texto;
@@ -36,7 +36,7 @@ public class Palabra
         return idPalabra;
     }
 
-    public int getPatronVibracion() {
+    public String getPatronVibracion() {
         return patronVibracion;
     }
 
@@ -57,7 +57,7 @@ public class Palabra
         this.idPalabra = idPalabra;
     }
 
-    public void setPatronVibracion(int patronVibracion) {
+    public void setPatronVibracion(String patronVibracion) {
         this.patronVibracion = patronVibracion;
     }
 

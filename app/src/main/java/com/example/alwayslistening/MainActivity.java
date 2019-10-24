@@ -194,8 +194,8 @@ public class MainActivity extends AppCompatActivity {
             tosty.show();
             //Aqui se escoge el primer elemento de las palabras detectadas porque es el que tiene mayor confianza y se convierte en un String para realizar la comparacion
 
-            if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
-                final long[] pattern = {0, 2000, 500, 500};
+            if(/*palabra.equalsIgnoreCase("cuidado" ) ||*/ PalabraSiEsta(palabra)){
+                /*final long[] pattern = {0, 2000, 500, 500};
                 int tiempo = (int)((int)pattern[0]+(int)pattern[1]+(int)pattern[2]+(int)pattern[3])/(int)1000;
                 for(int i = 0; i < 5; i++){
                     vibrator.vibrate(pattern,  0);
@@ -205,11 +205,35 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                vibrator.cancel();
+                vibrator.cancel();*/ TraerPatron("hola");
+
+
             }
             //Esto hace la comparación de la palabra detectada.
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /*private long[]*/ void TraerPatron(String palabra)
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        SQLiteDatabase db=conn.getReadableDatabase();
+        String[] parametros={palabra};
+
+        try {
+            //select nombre,telefono from usuario where codigo=?
+            Cursor cursor=db.rawQuery("SELECT patronVibracion  FROM Palabra WHERE textoPalabra=? ",parametros);
+            cursor.moveToFirst();
+            String patronString = cursor.getString(0);
+            Toast.makeText(getApplicationContext(),patronString,Toast.LENGTH_LONG).show();
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
+
+        }
+
+
+        //return ;
     }
 
     //función para verificar si el audio escuchado corresponde a una palabra de la base de datos. (temporalmente)
