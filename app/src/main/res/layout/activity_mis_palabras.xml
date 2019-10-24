@@ -8,10 +8,13 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@android:style/Widget.Holo.Light.Button"
+        android:layout_width="297dp"
+        android:layout_height="88dp"
+        android:background="#C56B65"
         android:onClick="MostrarPalabras"
         android:text="Ver mis palabras"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
