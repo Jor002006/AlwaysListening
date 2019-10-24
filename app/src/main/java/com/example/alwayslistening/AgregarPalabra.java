@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -33,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ import java.util.Random;
 
 public class AgregarPalabra extends AppCompatActivity {
 
-    private Button prueba;
+    private ImageButton prueba;
     private Button prueba2;
     private long contador;
     private Vibrator vibrator;
@@ -57,7 +59,7 @@ public class AgregarPalabra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
 
-        final Button prueba = (Button) findViewById(R.id.prueba);
+        final ImageButton prueba = (ImageButton) findViewById(R.id.prueba);
         //final TextView timeText = (TextView) findViewById(R.id.timeText);
         bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -180,7 +182,7 @@ public class AgregarPalabra extends AppCompatActivity {
     }
 
     private void prueba(){
-        prueba = (Button) findViewById(R.id.prueba);
+        prueba = (ImageButton) findViewById(R.id.prueba);
 
         prueba.setOnTouchListener(new View.OnTouchListener() {
             @Override
