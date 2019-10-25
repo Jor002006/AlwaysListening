@@ -20,6 +20,7 @@ package com.example.alwayslistening;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,6 +40,7 @@ public class MisPalabras extends AppCompatActivity {
     ArrayList<String> listaInformacion;
     ArrayList<Palabra> listaPalabras;
     ConexionSQLiteHelper conn;
+    Palabra palabraActual=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,9 @@ public class MisPalabras extends AppCompatActivity {
                  @Override
                  public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l)
                  {
-                     String textoPalabra = listaPalabras.get(pos).getTextoPalabra()+"\n";
-                     String estado=(listaPalabras.get(pos).getActivada()==1)?"Activada":"Silencjo";//listaPalabras.get(pos).getPatronVibracion();
+                     palabraActual = listaPalabras.get(pos);
+                     String textoPalabra = listaPalabras.get(pos).getTextoPalabra();
+                     String estado=(listaPalabras.get(pos).getActivada()==1)?"Activada":"Silencio";//listaPalabras.get(pos).getPatronVibracion();
                     MostrarPestana(textoPalabra,estado);
 
                  }
@@ -128,17 +131,28 @@ public class MisPalabras extends AppCompatActivity {
         dialogo1.show();
     }
 
-    private void MostrarPestana(final String title, String msg)
+    private void MostrarPestana( String title, String msg)
     {
+        final boolean PalabraActivada=msg.equalsIgnoreCase("Activada");
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
         dialogo1.setTitle(title);
         dialogo1.setMessage("ESTADO: "+msg);
 
-        final String primerBoton=msg.equalsIgnoreCase("Activada")?"SILENCIAR":"ACTIVAR";
+        final String primerBoton=(PalabraActivada)?"SILENCIAR":"ACTIVAR";
         dialogo1.setPositiveButton(primerBoton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String desplegado= primerBoton.equalsIgnoreCase("SILENCIAR")?"["+title+"] silenciada":"["+title+"] activada";
+                        String desplegado= (PalabraActivada)?"["+palabraActual.getTextoPalabra()+"] silenciada":"["+palabraActual.getTextoPalabra()+"] activada";
+                        int nuevoEstado=(PalabraActivada)?0:1;
+                        SQLiteDatabase db=conn.getReadableDatabase();
+                        String[] parametros={palabraActual.getTextoPalabra()};//title contiene la palabra
+                        ContentValues cv = new ContentValues();
+                        cv.put(com.example.alwayslistening.utilidades.CAMPO_ID,palabraActual.getIdPalabra());
+                        cv.put(com.example.alwayslistening.utilidades.CAMPO_TEXTO,palabraActual.getTextoPalabra());
+                        cv.put(com.example.alwayslistening.utilidades.CAMPO_ACTIVADA,nuevoEstado);
+                        cv.put(com.example.alwayslistening.utilidades.CAMPO_PATRON_VIBRACION,palabraActual.getPatronVibracion());
+
+                        db.update(com.example.alwayslistening.utilidades.TABLA_PALABRA, cv, com.example.alwayslistening.utilidades.CAMPO_TEXTO+"='"+palabraActual.getTextoPalabra()+"'", null);
                     }
                 });
                 dialogo1.show();
