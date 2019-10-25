@@ -17,10 +17,10 @@ package com.example.alwayslistening;
 public class Palabra
 {
     //Atributos del objeto palabra
-    private int idPalabra;
-    private String textoPalabra;
-    private int  activada;
-    private String patronVibracion;
+    protected int idPalabra;
+    protected String textoPalabra;
+    protected int  activada;
+    protected String patronVibracion;
 
     //constructor del objeto palabra donde se asignan sus propiedades iniciales en la instancia.
     public Palabra(int id, String texto,int activated, String patron)
