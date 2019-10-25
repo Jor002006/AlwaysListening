@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             tosty.show();
             //Aqui se escoge el primer elemento de las palabras detectadas porque es el que tiene mayor confianza y se convierte en un String para realizar la comparacion
 
-            if(/*palabra.equalsIgnoreCase("cuidado" ) ||*/ PalabraSiEsta(palabra)){
+            if(palabra.equalsIgnoreCase("cuidado" ) || PalabraSiEsta(palabra)){
                 /*final long[] pattern = {0, 2000, 500, 500};
                 int tiempo = (int)((int)pattern[0]+(int)pattern[1]+(int)pattern[2]+(int)pattern[3])/(int)1000;
                 for(int i = 0; i < 5; i++){
@@ -205,7 +205,26 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                vibrator.cancel();*/ TraerPatron("hola");
+                vibrator.cancel();*/
+                long[] pattern =TraerPatron(palabra);
+
+                int tiempo = 0;
+                for(int i=0;i<pattern.length;i++)
+                {
+                    tiempo+=(int)pattern[i];
+                }
+                tiempo=tiempo/1000;
+
+               // for(int i = 0; i < 5; i++){
+                    vibrator.vibrate(pattern,  0);
+                    try {
+                        TimeUnit.SECONDS.sleep(tiempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                //}
+
+
 
 
             }
@@ -214,17 +233,27 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*private long[]*/ void TraerPatron(String palabra)
+    private boolean tryParseInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /*private long[]*/ long[] TraerPatron(String palabra)
     {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
         String[] parametros={palabra};
+        String patronString="";
 
         try {
             //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT patronVibracion  FROM Palabra WHERE textoPalabra=? ",parametros);
+            Cursor cursor=db.rawQuery("SELECT patronVibracion  FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
             cursor.moveToFirst();
-            String patronString = cursor.getString(0);
+            patronString = cursor.getString(0);
             Toast.makeText(getApplicationContext(),patronString,Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
@@ -233,20 +262,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //return ;
+        int cantVibraciones = patronString.split(",").length;
+        long[] patron = new long[cantVibraciones];
+        String[] valores =patronString.split(",");
+
+        int size = valores.length;
+        for(int i=0; i<size; i++) {
+            String valor=valores[i];
+            patron[i] = (long)Integer.parseInt(valor);
+        }
+
+        return patron;
     }
 
     //función para verificar si el audio escuchado corresponde a una palabra de la base de datos. (temporalmente)
     boolean PalabraSiEsta(String palabra)
     {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
         String[] parametros={palabra};
         boolean respuesta=false;
 
         try {
             //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra WHERE textoPalabra=? ",parametros);
+            Cursor cursor=db.rawQuery("SELECT * FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
 
             cursor.moveToFirst();
             if(cursor.getCount()>0)

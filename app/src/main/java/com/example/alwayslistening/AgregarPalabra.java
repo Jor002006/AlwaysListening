@@ -36,7 +36,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -101,40 +101,96 @@ public class AgregarPalabra extends AppCompatActivity {
 
     private String ConvertirSucesionSonidosAString()
     {
-        String resp="";
+        /*String resp="";
         for(int i=0;i<sucesionSonidos.size();i++)
         {
             resp+=sucesionSonidos.get(i)+",";
+        }*/
+        Random rnd = new Random();
+        int opcion=1+rnd.nextInt(4);
+        long[] patron=null;
+        switch (opcion)
+        {
+            case 1:
+                long[] patron1 = {0, 1000, 250, 300};
+                patron = patron1;
+                break;
+
+            case 2:
+                long[] patron2 = {0, 500, 250, 600};
+                patron = patron2;
+                break;
+
+            case 3:
+                long[] patron3 = {0, 1200, 300, 250};
+                patron = patron3;
+                break;
+
+            case 4:
+                long[] patron4 = {0, 500, 250, 100};
+                patron = patron4;
+                break;
         }
 
+        String resp="";
+        for(int i=0;i<patron.length;i++)
+        {
+            resp+=patron[i]+",";
+        }
         return resp;
     }
 
     public void MostrarPatron(View view)
     {
-        //String patronComoString = ConvertirSucesionSonidosAString();
-        int u=sucesionSonidos.size();
-        Toast.makeText(getApplicationContext(),Integer.toString(sucesionSonidos.size()),Toast.LENGTH_LONG).show();
+        String patronComoString = ConvertirSucesionSonidosAString();
+        Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
     }
 
     //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
-    public void GuardarPalabra(View view)
+    /*public void GuardarPalabra(View view)
     {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
         SQLiteDatabase db = conn.getWritableDatabase();
         EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
         String patronComoString = ConvertirSucesionSonidosAString();
         Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
+        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, /*patronComoString*//*"1000");
+        //Alternativa de pruebas de INSERT
+        //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
+/*
+        String insert="INSERT INTO "+ com.example.alwayslistening.utilidades.TABLA_PALABRA+" (idPalabra, textoPalabra, activada, patronVibracion) values" +
+                "("+palabra.getIdPalabra()+
+                ",'"+palabra.getTextoPalabra()+
+                "',"+palabra.getActivada()+
+                ", "+/*palabra.getPatronVibracion()+*//*"1000)";*/
+/*
+         String s= insert;
+         String a =s;
+        db.execSQL(insert);
+        if(PalabraSiEsta(palabra.getTextoPalabra()))
+        {
+            Dialogo(palabra.getTextoPalabra().toUpperCase());
+        }
+        db.close();
+    }*/
+
+    public void GuardarPalabra(View view)
+    {
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+        EditText editText1 = (EditText)(findViewById(R.id.textBox1));
+
+        String patronComoString = ConvertirSucesionSonidosAString();
         Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, patronComoString);
         //Alternativa de pruebas de INSERT
         //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
 
-        String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values" +
+        String insert="INSERT INTO "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" (idPalabra, textoPalabra, activada, patronVibracion) values" +
                 "("+palabra.getIdPalabra()+
                 ",'"+palabra.getTextoPalabra()+
                 "',"+palabra.getActivada()+
-                ", "+palabra.getPatronVibracion()+")";
+                ", '"+palabra.getPatronVibracion()+"')";
         db.execSQL(insert);
         if(PalabraSiEsta(palabra.getTextoPalabra()))
         {
@@ -173,14 +229,14 @@ public class AgregarPalabra extends AppCompatActivity {
     // función quere revisa si la palabra fue insertada correctamente en la base de datos.
     boolean PalabraSiEsta(String palabra)
     {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
         String[] parametros={palabra};
         boolean respuesta=false;
 
         try {
             //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra WHERE textoPalabra=? ",parametros);
+            Cursor cursor=db.rawQuery("SELECT * FROM "+ com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
 
             cursor.moveToFirst();
             if(cursor.getCount()>0)

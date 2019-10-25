@@ -39,6 +39,6 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
     //si se requiere, elimina la base de datos.
     @Override
     public void onUpgrade(SQLiteDatabase db, int versionAntigua, int versionNueva) {
-        db.execSQL("DROP TABLE IF EXISTS Palabra");
+        db.execSQL("DROP TABLE IF EXISTS "+utilidades.TABLA_PALABRA);
     }
 }

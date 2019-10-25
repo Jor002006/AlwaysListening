@@ -45,13 +45,13 @@ public class MisPalabras extends AppCompatActivity {
     //toma de la base de datos todas las palabras registradas.
     public String PalabrasQueHay()
     {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
+        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
         String respuesta="";
 
         try {
             //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM Palabra",null);
+            Cursor cursor=db.rawQuery("SELECT * FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA,null);
 
             cursor.moveToFirst();
             if(cursor.getCount()>0)
