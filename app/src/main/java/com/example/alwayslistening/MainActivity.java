@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             Cursor cursor=db.rawQuery("SELECT patronVibracion  FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
             cursor.moveToFirst();
             patronString = cursor.getString(0);
-            Toast.makeText(getApplicationContext(),patronString,Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),patronString,Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"El documento no existe",Toast.LENGTH_LONG).show();
@@ -285,8 +285,8 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             //select nombre,telefono from usuario where codigo=?
-            Cursor cursor=db.rawQuery("SELECT * FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
-
+            //Cursor cursor=db.rawQuery("SELECT * FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra=? ",parametros);
+            Cursor cursor=db.rawQuery("SELECT * FROM "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" WHERE textoPalabra= '"+palabra+"' AND activada = 1",null);
             cursor.moveToFirst();
             if(cursor.getCount()>0)
             {respuesta=true;}
