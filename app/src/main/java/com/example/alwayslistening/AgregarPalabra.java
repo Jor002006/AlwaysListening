@@ -164,20 +164,28 @@ public class AgregarPalabra extends AppCompatActivity {
         SQLiteDatabase db = conn.getWritableDatabase();
         EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
-        String patronComoString = ConvertirPatronAString(vibracionSeleccionada);
-        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, patronComoString);
-        //Alternativa de pruebas de INSERT
-        //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
-
-        String insert="INSERT INTO "+com.example.alwayslistening.utilidades.TABLA_PALABRA+" (idPalabra, textoPalabra, activada, patronVibracion) values" +
-                "("+palabra.getIdPalabra()+
-                ",'"+palabra.getTextoPalabra()+
-                "',"+palabra.getActivada()+
-                ", '"+palabra.getPatronVibracion()+"')";
-        db.execSQL(insert);
-        if(PalabraSiEsta(palabra.getTextoPalabra()))
+        if(!editText1.getText().toString().equalsIgnoreCase(""))
         {
-            Dialogo(palabra.getTextoPalabra().toUpperCase());
+
+            String patronComoString = ConvertirPatronAString(vibracionSeleccionada);
+            Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, patronComoString);
+            //Alternativa de pruebas de INSERT
+            //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
+
+            String insert = "INSERT INTO " + com.example.alwayslistening.utilidades.TABLA_PALABRA + " (idPalabra, textoPalabra, activada, patronVibracion) values" +
+                    "(" + palabra.getIdPalabra() +
+                    ",'" + palabra.getTextoPalabra() +
+                    "'," + palabra.getActivada() +
+                    ", '" + palabra.getPatronVibracion() + "')";
+            db.execSQL(insert);
+            if (PalabraSiEsta(palabra.getTextoPalabra())) {
+                Dialogo(palabra.getTextoPalabra().toUpperCase());
+            }
+        }
+        else
+        {
+            Toast t=Toast.makeText(this,"Escriba una palabra", Toast.LENGTH_SHORT);
+            t.show();
         }
         db.close();
     }
