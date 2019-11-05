@@ -207,20 +207,6 @@ public class MisPalabras extends AppCompatActivity {
         }
     }
 
-    /*public ArrayList getAllWords() {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
-        SQLiteDatabase db = conn.getReadableDatabase();
-        //SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<String> array_list = new ArrayList<String>();
-        Cursor res = db.rawQuery( "select * from "+CONTACTS_TABLE_NAME, null );
-        res.moveToFirst();
-        while(res.isAfterLast() = = false) {
-            array_list.add(res.getString(res.getColumnIndex("name")));
-            res.moveToNext();
-        }
-        return array_list;
-    }*/
-
     //función para eliminar una palabra del sistema.
     public void Borrar(String palabra)
     {

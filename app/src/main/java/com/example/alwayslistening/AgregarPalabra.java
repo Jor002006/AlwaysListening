@@ -31,6 +31,8 @@ import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,6 +42,9 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import android.widget.ListView;
 //package com.example.apptimesince;
 
 public class AgregarPalabra extends AppCompatActivity {
@@ -52,61 +57,68 @@ public class AgregarPalabra extends AppCompatActivity {
     boolean i =false;
     long bootTime;
     ArrayList<Long> sucesionSonidos;
+    ListView LV;
+    ArrayList<String> listaInformacion;
+    ArrayList<long[]> listaVibraciones;
+    long[] vibracionSeleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
 
-        final ImageButton prueba = (ImageButton) findViewById(R.id.prueba);
-        //final TextView timeText = (TextView) findViewById(R.id.timeText);
         bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        prueba2 = (Button) (findViewById(R.id.button2));
         sucesionSonidos = new ArrayList<Long>();
+        LV = (ListView) findViewById(R.id.lv1);
+        PrepararListaVibraciones();
+        PonerAdapter();
 
-        prueba2.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Toast cont = Toast.makeText(getApplicationContext(), Long.toString(contador), Toast.LENGTH_SHORT);
-               cont.show();
-           }
-        });
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                                  {
+                                      @Override
+                                      public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l)
+                                      {
+                                          try
+                                          {
+                                              vibracionSeleccionada=listaVibraciones.get(pos);
+                                              long[] pattern =vibracionSeleccionada;
+                                              //ConvertirPatronAString(pattern);
 
-        prueba.setOnClickListener(new View.OnClickListener() {
+                                              int tiempo = 0;
+                                              for(int i=0;i<pattern.length;i++)
+                                              {
+                                                  tiempo+=(int)pattern[i];
+                                              }
+                                              tiempo=tiempo/1000;
 
-            @Override
-            public void onClick(View v) {
+                                              // for(int i = 0; i < 5; i++){
+                                              vibrator.vibrate(pattern,  0);
+                                              try {
+                                                  TimeUnit.SECONDS.sleep(tiempo);
+                                              } catch (InterruptedException e) {
+                                                  e.printStackTrace();
+                                              }
+                                          }
+                                          catch(Exception e)
+                                          {
+                                              Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                                          }
 
-                final Long timeElapsed = SystemClock.elapsedRealtime();
-
-                if (i) {
-                    sucesionSonidos.add(contador);
-                    Long timeElapsed2= SystemClock.elapsedRealtime();
-                    Long timeElapsed3 = timeElapsed2- bootTime;
-                    bootTime = timeElapsed2;
-                    //timeText.setText(String.valueOf(timeElapsed3));
-                    sucesionSonidos.add(timeElapsed3);
-                    i = false;
-                }
-                else {
-                    prueba();
-                    i = true;
-                }
-
-            }
-        });
+                                      }
+                                  }
+        );
 
     }
 
-    private String ConvertirSucesionSonidosAString()
+    private String ConvertirPatronAString(long[] patron)
     {
         /*String resp="";
         for(int i=0;i<sucesionSonidos.size();i++)
         {
             resp+=sucesionSonidos.get(i)+",";
         }*/
-        Random rnd = new Random();
+        /*Random rnd = new Random();
         int opcion=1+rnd.nextInt(4);
         long[] patron=null;
         switch (opcion)
@@ -130,7 +142,7 @@ public class AgregarPalabra extends AppCompatActivity {
                 long[] patron4 = {0, 500, 250, 100};
                 patron = patron4;
                 break;
-        }
+        }*/
 
         String resp="";
         for(int i=0;i<patron.length;i++)
@@ -142,38 +154,9 @@ public class AgregarPalabra extends AppCompatActivity {
 
     public void MostrarPatron(View view)
     {
-        String patronComoString = ConvertirSucesionSonidosAString();
+        String patronComoString = ConvertirPatronAString(vibracionSeleccionada);
         Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
     }
-
-    //función que guarda el texto correspondiente a la palabra con su respectiva vibración en la base de datos.
-    /*public void GuardarPalabra(View view)
-    {
-        ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
-        SQLiteDatabase db = conn.getWritableDatabase();
-        EditText editText1 = (EditText)(findViewById(R.id.textBox1));
-
-        String patronComoString = ConvertirSucesionSonidosAString();
-        Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
-        Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, /*patronComoString*//*"1000");
-        //Alternativa de pruebas de INSERT
-        //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
-/*
-        String insert="INSERT INTO "+ com.example.alwayslistening.utilidades.TABLA_PALABRA+" (idPalabra, textoPalabra, activada, patronVibracion) values" +
-                "("+palabra.getIdPalabra()+
-                ",'"+palabra.getTextoPalabra()+
-                "',"+palabra.getActivada()+
-                ", "+/*palabra.getPatronVibracion()+*//*"1000)";*/
-/*
-         String s= insert;
-         String a =s;
-        db.execSQL(insert);
-        if(PalabraSiEsta(palabra.getTextoPalabra()))
-        {
-            Dialogo(palabra.getTextoPalabra().toUpperCase());
-        }
-        db.close();
-    }*/
 
     public void GuardarPalabra(View view)
     {
@@ -181,7 +164,7 @@ public class AgregarPalabra extends AppCompatActivity {
         SQLiteDatabase db = conn.getWritableDatabase();
         EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
-        String patronComoString = ConvertirSucesionSonidosAString();
+        String patronComoString = ConvertirPatronAString(vibracionSeleccionada);
         Palabra palabra = new Palabra(new Random().nextInt(), editText1.getText().toString(), 1, patronComoString);
         //Alternativa de pruebas de INSERT
         //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
@@ -250,23 +233,43 @@ public class AgregarPalabra extends AppCompatActivity {
         return respuesta;
     }
 
-    private void prueba(){
-        prueba = (ImageButton) findViewById(R.id.prueba);
+    private void PrepararListaVibraciones()
+    {
 
-        prueba.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == motionEvent.ACTION_DOWN) {
-                    contador = System.currentTimeMillis();
-                } else if (motionEvent.getAction() == motionEvent.ACTION_UP) {
-                    contador = System.currentTimeMillis() - contador;
-                }
-                return true;
-            }
+        listaInformacion= new ArrayList<String>();
+        listaInformacion.add("Creciente simple"); //0
+        listaInformacion.add("Creciente extensa"); //1
+        listaInformacion.add("Decreciente simple"); //2
+        listaInformacion.add("Decreciente extensa"); //3
+        listaInformacion.add("Ráfaga simple"); //4
+        listaInformacion.add("Ráfaga extensa"); //5
+        listaInformacion.add("Continua simple"); //6
+        listaInformacion.add("Continua extensa"); //7
 
-        });
+        listaVibraciones = new ArrayList<long[]>();
+        long[] v0 = {100,100,100, 200,100, 300,100, 400,100};
+        listaVibraciones.add(v0);
+        long[] v1 = {100,250,100, 500,100, 750,100, 1000,100};
+        listaVibraciones.add(v1);
+        long[] v2 = {100,400,100, 300,100, 200,100, 100,100};
+        listaVibraciones.add(v2);
+        long[] v3 = {100,1000,100, 750,100, 500,100, 250,100};
+        listaVibraciones.add(v3);
+        long[] v4 = {100,100,100, 100,100, 100,100, 100,100};
+        listaVibraciones.add(v4);
+        long[] v5 = {100,300,100, 300,100, 300,100, 300,100};
+        listaVibraciones.add(v5);
+        long[] v6 = {100,1000,100};
+        listaVibraciones.add(v6);
+        long[] v7 = {100,2000,100};
+        listaVibraciones.add(v7);
 
     }
 
+    private void PonerAdapter()
+    {
+        ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaInformacion);
+        LV.setAdapter(adaptador);
+    }
 
 }
