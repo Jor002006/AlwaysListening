@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 tiempo=tiempo/1000;
 
                // for(int i = 0; i < 5; i++){
-                    vibrator.vibrate(pattern,  0);
+                    vibrator.vibrate(pattern,  -1);
                     try {
                         TimeUnit.SECONDS.sleep(tiempo);
                     } catch (InterruptedException e) {
