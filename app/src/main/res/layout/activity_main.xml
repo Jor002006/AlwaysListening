@@ -39,8 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="528dp"
+        android:cursorVisible="true"
         android:onClick="start"
         android:text="ACTIVADO"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="-29dp" />
 
@@ -52,6 +54,7 @@
         android:layout_marginTop="568dp"
         android:onClick="stop"
         android:text="desactivado"
+        android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -86,6 +89,7 @@
         android:layout_height="wrap_content"
         android:text="Escucha automática"
         android:textColor="#ED050505"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
