@@ -40,7 +40,7 @@ public class Speechtext extends AppCompatActivity {
 
     public void mostrarAudioInput() {// metodo para que cuando reconozca la palabra la muestre en pantalla.
         Intent mod = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH); //reconoce idioma en que se habla
-        //mod.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        mod.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         mod.putExtra(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS, "es-Es");
         mod.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES");
 
