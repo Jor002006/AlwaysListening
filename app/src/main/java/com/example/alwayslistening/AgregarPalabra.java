@@ -60,7 +60,7 @@ public class AgregarPalabra extends AppCompatActivity {
     ListView LV;
     ArrayList<String> listaInformacion;
     ArrayList<long[]> listaVibraciones;
-    long[] vibracionSeleccionada;
+    long[] vibracionSeleccionada=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,37 +113,6 @@ public class AgregarPalabra extends AppCompatActivity {
 
     private String ConvertirPatronAString(long[] patron)
     {
-        /*String resp="";
-        for(int i=0;i<sucesionSonidos.size();i++)
-        {
-            resp+=sucesionSonidos.get(i)+",";
-        }*/
-        /*Random rnd = new Random();
-        int opcion=1+rnd.nextInt(4);
-        long[] patron=null;
-        switch (opcion)
-        {
-            case 1:
-                long[] patron1 = {0, 1000, 250, 300};
-                patron = patron1;
-                break;
-
-            case 2:
-                long[] patron2 = {0, 500, 250, 600};
-                patron = patron2;
-                break;
-
-            case 3:
-                long[] patron3 = {0, 1200, 300, 250};
-                patron = patron3;
-                break;
-
-            case 4:
-                long[] patron4 = {0, 500, 250, 100};
-                patron = patron4;
-                break;
-        }*/
-
         String resp="";
         for(int i=0;i<patron.length;i++)
         {
@@ -164,7 +133,20 @@ public class AgregarPalabra extends AppCompatActivity {
         SQLiteDatabase db = conn.getWritableDatabase();
         EditText editText1 = (EditText)(findViewById(R.id.textBox1));
 
-        if(!editText1.getText().toString().equalsIgnoreCase(""))
+        boolean bandera=true;
+        String mensaje="";
+        if(editText1.getText().toString().equalsIgnoreCase(""))
+        {
+            bandera=false;
+            mensaje="Escriba una palabra";
+        }
+        if(vibracionSeleccionada==null)
+        {
+            bandera=false;
+            mensaje="Seleccione una vibración";
+        }
+
+        if(bandera)
         {
 
             String patronComoString = ConvertirPatronAString(vibracionSeleccionada);
@@ -184,7 +166,7 @@ public class AgregarPalabra extends AppCompatActivity {
         }
         else
         {
-            Toast t=Toast.makeText(this,"Escriba una palabra", Toast.LENGTH_SHORT);
+            Toast t=Toast.makeText(this,mensaje, Toast.LENGTH_SHORT);
             t.show();
         }
         db.close();

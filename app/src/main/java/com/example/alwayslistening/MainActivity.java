@@ -228,6 +228,9 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
+            else {
+                startVoiceRecognitionActivity();
+            }
             //Esto hace la comparación de la palabra detectada.
         }
         super.onActivityResult(requestCode, resultCode, data);
