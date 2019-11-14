@@ -99,24 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //inician y detienen la ejecución del servicio para tareas en segundo plano.
-    public void start(View view) {
-        //Intent intent = new Intent(MainActivity.this, MyService.class);  //// Solo estan comentadas temporalmente para revision
-        //startThread(View view);
-        //startService(intent); //// Solo estan comentadas temporalmente para revision
-        Toast.makeText(getApplicationContext(),"Servicio activado",Toast.LENGTH_LONG).show();
-
-       /* Speechtext s = new Speechtext();
-        s.mostrarAudioInput();*/
-    }
-
-    //inician y detienen la ejecución del servicio para tareas en segundo plano.
-    public void stop(View view) {
-        Intent intent = new Intent(MainActivity.this, MyService.class);
-        stopService(intent);
-
-
-    }
 
     public void DameClick(View view) {
 

@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="ExtraText">
 
     <Button
         android:id="@+id/nueva_palabra"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="288dp"
+        android:background="@drawable/buttonshape"
         android:onClick="DameClick"
         android:text="Nueva Palabra"
+        android:textColor="#F8F7F7"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,18 +24,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.24" />
 
+
     <Button
         android:id="@+id/mis_palabras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="288dp"
+        android:background="@drawable/buttonshape"
         android:onClick="DameClick"
-        android:text="Mis Palabras"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Mis palabras"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintVertical_bias="0.55" />
 
     <Button
 
@@ -44,7 +57,8 @@
         android:text="ACTIVADO"
         android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-29dp" />
+        tools:layout_editor_absoluteX="-29dp"
+        />
 
 
     <Button
@@ -60,10 +74,14 @@
 
     <Button
         android:id="@+id/btnVoice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="63dp"
         android:layout_marginTop="26dp"
-        android:text="Prueba de audio"
+        android:background="@drawable/buttonshape"
+        android:clickable="false"
+        android:text="Activar Microfono"
+        android:textColor="#F5EDED"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -72,14 +90,15 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="55dp"
         android:layout_marginRight="55dp"
+        android:clickable="false"
         android:text="AlwaysListening"
-        android:textColor="#03A9F4"
+        android:textColor="#0E2C3A"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintHorizontal_bias="0.789"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,6 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:layout_marginBottom="8dp"
+        android:clickable="false"
         app:layout_constraintBottom_toTopOf="@+id/nueva_palabra"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
