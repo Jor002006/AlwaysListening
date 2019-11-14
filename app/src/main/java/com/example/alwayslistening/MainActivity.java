@@ -133,8 +133,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
+    // esto es el codigo en caso que usemos hilos para el modulo de voz
+
     //habilitan funciones de reconocimiento de voz.
-    public void startThread() {
+  /*  public void startThread() {
         VoiceRecognitionThread thread = new VoiceRecognitionThread();
         thread.run();
 
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
         }
     }
-
+*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

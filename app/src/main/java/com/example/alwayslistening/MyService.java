@@ -48,7 +48,7 @@ public class MyService extends Service {
         */
 
         MainActivity main = new MainActivity();
-        main.startThread();
+      //  main.startThread();
 
 
 
