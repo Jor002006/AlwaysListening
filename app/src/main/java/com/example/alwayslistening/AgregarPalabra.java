@@ -49,6 +49,7 @@ import android.widget.ListView;
 
 public class AgregarPalabra extends AppCompatActivity {
 
+    //Variables globales de la clase
     private ImageButton prueba;
     private Button prueba2;
     private long contador;
@@ -67,6 +68,7 @@ public class AgregarPalabra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_palabra);
 
+        //Preparacion de Listas y objetos especiales para manipular las vibraciones dentro del menu
         bootTime = SystemClock.elapsedRealtime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         sucesionSonidos = new ArrayList<Long>();
@@ -81,6 +83,7 @@ public class AgregarPalabra extends AppCompatActivity {
                                       {
                                           try
                                           {
+                                              //De acuerdo con la vibracion que se selecciono se toma su patron de la lista de vibraciones para insertarla en la BD
                                               vibracionSeleccionada=listaVibraciones.get(pos);
                                               long[] pattern =vibracionSeleccionada;
                                               //ConvertirPatronAString(pattern);
@@ -92,7 +95,7 @@ public class AgregarPalabra extends AppCompatActivity {
                                               }
                                               tiempo=tiempo/1000;
 
-                                              // for(int i = 0; i < 5; i++){
+                                              // Metodo que provoca la vibracion como tal
                                               vibrator.vibrate(pattern,  -1);
                                               try {
                                                   TimeUnit.SECONDS.sleep(tiempo);
@@ -111,6 +114,7 @@ public class AgregarPalabra extends AppCompatActivity {
 
     }
 
+    //El patron de vibracion se guarda como String entonces hay que tener funciones de conversion
     private String ConvertirPatronAString(long[] patron)
     {
         String resp="";
@@ -127,6 +131,7 @@ public class AgregarPalabra extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),patronComoString,Toast.LENGTH_LONG).show();
     }
 
+    //Metodo principal encargado de insertar la palabra en la base de datos de SQLite
     public void GuardarPalabra(View view)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, com.example.alwayslistening.utilidades.NOMBRE_BD, null, 1);
@@ -135,17 +140,22 @@ public class AgregarPalabra extends AppCompatActivity {
 
         boolean bandera=true;
         String mensaje="";
+
+        //Validacion de texto vacio
         if(editText1.getText().toString().equalsIgnoreCase(""))
         {
             bandera=false;
             mensaje="Escriba una palabra";
         }
+
+        //validacion de no seleccionar vibracion
         if(vibracionSeleccionada==null)
         {
             bandera=false;
             mensaje="Seleccione una vibración";
         }
 
+        //Procedimiento para insertar en la base de datos si se aprobaron todas las validaciones
         if(bandera)
         {
 
@@ -154,6 +164,7 @@ public class AgregarPalabra extends AppCompatActivity {
             //Alternativa de pruebas de INSERT
             //String insert="INSERT INTO Palabra (idPalabra, textoPalabra, activada, patronVibracion) values(123,'"+palabra.getTextoPalabra()+"',1, 1000)";
 
+            //Sentencia SQL para hacer el Insert
             String insert = "INSERT INTO " + com.example.alwayslistening.utilidades.TABLA_PALABRA + " (idPalabra, textoPalabra, activada, patronVibracion) values" +
                     "(" + palabra.getIdPalabra() +
                     ",'" + palabra.getTextoPalabra() +
@@ -223,6 +234,7 @@ public class AgregarPalabra extends AppCompatActivity {
         return respuesta;
     }
 
+    //Se preparan los datos de la lista de posibles vibraciones con sus valores
     private void PrepararListaVibraciones()
     {
 
@@ -256,6 +268,7 @@ public class AgregarPalabra extends AppCompatActivity {
 
     }
 
+    //Se traslada la lista de vibraciones a la pantalla
     private void PonerAdapter()
     {
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listaInformacion);

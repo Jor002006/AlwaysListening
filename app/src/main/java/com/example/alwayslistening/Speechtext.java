@@ -44,6 +44,7 @@ public class Speechtext extends AppCompatActivity {
         mod.putExtra(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS, "es-Es");
         mod.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES");
 
+        //Validacion
         try {
             startActivityForResult(mod, 100);
         } catch (ActivityNotFoundException que) {
@@ -52,8 +53,10 @@ public class Speechtext extends AppCompatActivity {
         }
     }
 
+    //Metodo para revisar si una palabra pertenece o no a la base de datos
     boolean PalabraSiEsta(String palabra)
     {
+        //Parametros de conexion y configuracion a la base de datos
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
         SQLiteDatabase db=conn.getReadableDatabase();
         String[] parametros={palabra};
@@ -75,6 +78,7 @@ public class Speechtext extends AppCompatActivity {
         return respuesta;
     }
 
+    //Metodo para tomar todas las palabras de la base datos
     public ArrayList<String> MiLista()
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);
@@ -100,6 +104,7 @@ public class Speechtext extends AppCompatActivity {
         return lista;
     }
 
+    //Metodo para tener especificamente el campo del patron de vibracion de una palabra especifica
     int TomarVibracion(String palabra)
     {
         ConexionSQLiteHelper conn = new ConexionSQLiteHelper(this, "BaseDeDatos", null, 1);

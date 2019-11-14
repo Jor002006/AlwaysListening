@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class MisPalabras extends AppCompatActivity {
 
-
+//Variables globales par manipular de forma ordenada las vibraciones
     ListView LV;
     ArrayList<String> listaInformacion;
     ArrayList<Palabra> listaPalabras;
@@ -59,7 +59,7 @@ public class MisPalabras extends AppCompatActivity {
                  @Override
                  public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l)
                  {
-                     try {
+                     try { //Se revisa el estado actual de la palabra si esta activa o no para presentar las opciones al usuario
                          palabraActual = listaPalabras.get(pos);
                          String textoPalabra = listaPalabras.get(pos).getTextoPalabra();
                          String estado = (listaPalabras.get(pos).getActivada() == 1) ? "Activada" : "Silencio";//listaPalabras.get(pos).getPatronVibracion();
@@ -81,6 +81,7 @@ public class MisPalabras extends AppCompatActivity {
         LV.setAdapter(adaptador);
     }
 
+    //SELECT en la base de datos para traer la notificacion de cada palabra
     private void consultarListaPalabras()
     {
         SQLiteDatabase db = conn.getReadableDatabase();
@@ -97,6 +98,7 @@ public class MisPalabras extends AppCompatActivity {
         obtenerListaInformacion();
     }
 
+    //Prepara el contenido de la lista de opciones que se despliegan en pantalla
     private void obtenerListaInformacion()
     {
         listaInformacion = new ArrayList<String>();
@@ -143,6 +145,7 @@ public class MisPalabras extends AppCompatActivity {
         dialogo1.show();
     }
 
+    //Opciones para SILENCIAR y ACTIVAR palabras es aqui
     private void MostrarPestana( String title, String msg)
     {
         try{
@@ -157,6 +160,7 @@ public class MisPalabras extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         try {
+                            //dependiente del estado actual de la palabra eso es lo que se le asinga
                             String desplegado = (PalabraActivada) ? "[" + palabraActual.getTextoPalabra() + "] silenciada" : "[" + palabraActual.getTextoPalabra() + "] activada";
                             int nuevoEstado = (PalabraActivada) ? 0 : 1;
                             SQLiteDatabase db = conn.getReadableDatabase();
@@ -184,7 +188,7 @@ public class MisPalabras extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                try{
+                try{    //Metodo para elemininar palabras
                 SQLiteDatabase db=conn.getReadableDatabase();
                 String[] parametros={palabraActual.getTextoPalabra()};//title contiene la palabra
                 db.delete(com.example.alwayslistening.utilidades.TABLA_PALABRA, com.example.alwayslistening.utilidades.CAMPO_TEXTO+"='"+palabraActual.getTextoPalabra()+"'", null);

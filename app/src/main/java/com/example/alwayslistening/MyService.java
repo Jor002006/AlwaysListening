@@ -37,15 +37,7 @@ public class MyService extends Service {
 
         // crearemos un hilo para poder  trabajar el proceso que es tan pesado
         // ya que si se corre solo así entonces se cierra la app
-        // NO ES  problema de que no se puedan llamar cosas al main, porque ya lo probe
-        // y si funciona
-        //prueba:
-        /*
-        boolean a  = true;
 
-        MainActivity main = new MainActivity();
-        main.prueba(a);
-        */
 
         MainActivity main = new MainActivity();
       //  main.startThread();
